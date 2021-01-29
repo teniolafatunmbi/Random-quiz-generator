@@ -1,4 +1,5 @@
 #A quiz generator application in python.
+#By Omoteniola-dev.
 import random
 # The quiz data. Keys are states and values are their capitals.
 capitals = {'Alabama': 'Montgomery',
@@ -53,16 +54,19 @@ capitals = {'Alabama': 'Montgomery',
             'Wyoming': 'Cheyenne'}
 states = list(capitals.keys())
 
+#Quiz generator class
 class quizGenerator(object):
     def __init__(self, states, capitals):
         self.states = states 
         self.capitals = capitals
 
+    #Function to create the quiz files and answer files
     def createFile(self, quizFile, answerFile):
         quizFile.write("NAME:\nDATE:\nPERIOD:\n\n")
         quizFile.write(" " * 20 + "STATE CAPITAL QUIZ {}".format(quizNum + 1))
         quizFile.write("\n\n")
 
+    #Function to create the questions in the quizFile
     def createQuestions(self, quizFile, wrong_answers, correct_answer):
         quizFile.write("{}. What is the capital of {}?".format(questionNum + 1, self.states[questionNum]))
         quizFile.write("\n\n")
@@ -75,19 +79,21 @@ class quizGenerator(object):
             quizFile.write('\n')
         
 
-
+    #Function to create answers in the answer file
     def createAnswers(self, answerFile, correct_answer):
         answerFile.write("{}. {} ".format(questionNum + 1, correct_answer))
         answerFile.write("\n\n")
 
-
+#initializing the application
 Quiz = quizGenerator(states, capitals)
 
+#Loop to create the 35 quiz and answer files
 for quizNum in range(35):
     quizFile = open("capitalsquiz{}.txt".format(quizNum + 1), 'w')
     answerFile = open("answerfile{}.txt".format(quizNum + 1), 'w')
     Quiz.createFile(quizFile, answerFile)
 
+    #Loop to create and randomize 50 questions and answers
     for questionNum in range(50):
         random.shuffle(states)
         correct_answer = capitals[states[questionNum]]
@@ -95,5 +101,6 @@ for quizNum in range(35):
         Quiz.createQuestions(quizFile, wrong_answers, correct_answer)
         quizFile.write("\n\n")
         Quiz.createAnswers(answerFile, correct_answer)
+    #close the files.
     quizFile.close()
     answerFile.close()
